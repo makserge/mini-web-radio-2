@@ -4,7 +4,7 @@
 #include <SPIFFS.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncTCP.h>
-#include "mwr_config.h"
+#include "config.h"
 
 // Variables
 const char* PARAM_INPUT_1 = "host"; // HTTP Input param for Host
@@ -14,9 +14,6 @@ const char* PARAM_INPUT_4 = "url";  // HTTP Input param for URLs
 const char* PARAM_INPUT_5 = "treb"; // HTTP Input param for URLs
 const char* PARAM_INPUT_6 = "mid";  // HTTP Input param for URLs
 const char* PARAM_INPUT_7 = "bass"; // HTTP Input param for URLs
-
-IPAddress primaryDNS(8, 8, 8, 8);      // Primary DNS server (Google DNS)
-IPAddress secondaryDNS(8, 8, 4, 4);    // Secondary DNS server (Google DNS)
 
 String host;
 String ssid;
@@ -54,7 +51,7 @@ void Config::apMode()
   Serial.println("Starting WiFi in AP Mode");
   WiFi.disconnect();                              // Disconnect Wifi (just in case)
   WiFi.softAPConfig(localIP,localGateway,subnet); // Configure Wifi
-  WiFi.softAP("MWR-WIFI-SETUP", NULL);            // Start Wifi as AP
+  WiFi.softAP("Internet radio setup", NULL);            // Start Wifi as AP
 
   // Web Server Root URL
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -121,6 +118,7 @@ void Config::stMode()
   host = readFile(SPIFFS, hostPath);      // Read hostname
   ssid = readFile(SPIFFS, ssidPath);      // Read SSID
   pass = readFile(SPIFFS, passPath);      // Read Password
+
   String toneValues = readFile(SPIFFS, tonePath); // Read tone values from CSV
 
   // Parse CSV
@@ -132,11 +130,9 @@ void Config::stMode()
     bass = toneValues.substring(comma2 + 1).toInt();
   }
 
-  WiFi.disconnect();
   WiFi.mode(WIFI_STA);
-  WiFi.setHostname(host.c_str());         // Set Hostname
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, primaryDNS, secondaryDNS);
-  WiFi.begin(ssid.c_str(), pass.c_str()); // Start Wifi
+  WiFi.setHostname(host.c_str());
+  WiFi.begin(ssid.c_str(), pass.c_str());
   Serial.print("Connecting to:");
   Serial.println(ssid);
 }

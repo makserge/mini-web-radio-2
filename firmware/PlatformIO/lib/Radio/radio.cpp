@@ -3,7 +3,7 @@
 #include <Audio.h>
 #include "FS.h"
 #include <SPIFFS.h>
-#include "mwr_radio.h"
+#include "radio.h"
 
 // Initialise Audio library
 Audio audio;
@@ -14,11 +14,9 @@ Audio audio;
  * @param DOUT 
  * @param BLCK 
  * @param LRC 
- * @param ASO 
  */
-void Radio::init(int DOUT, int BLCK, int LRC, int ASO)
+void Radio::init(int DOUT, int BLCK, int LRC)
 {
-  this->ASO = ASO;
   // Set Pins
   audio.setPinout(BLCK, LRC, DOUT);
   // Set volume steps
@@ -37,9 +35,6 @@ void Radio::init(int DOUT, int BLCK, int LRC, int ASO)
   Serial.println( countLines() );
   this->playlistCount = countLines();
   this->playlistIndex = 0;
-  
-  // Enable Audio hardware
-  digitalWrite(ASO,LOW);
 }
 
 /**

@@ -1,5 +1,5 @@
-#ifndef mwr_led_h
-#define mwr_led_h
+#ifndef led_h
+#define led_h
 
 // Includes
 #include <Arduino.h>
@@ -9,7 +9,7 @@
  */
 class Led {
     public:
-        Led(int LED_R, int LED_G, int LED_B);
+        Led(int LED_B);
         void setColour(String hexstring);
         void setState(String colour, int time, int repeat);
 };

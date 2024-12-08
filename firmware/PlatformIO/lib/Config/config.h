@@ -1,5 +1,5 @@
-#ifndef MWR_CONFIG_H
-#define MWR_CONFIG_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <Arduino.h>
 

@@ -1,5 +1,5 @@
-#ifndef mwr_radio_h
-#define mwr_radio_h
+#ifndef radio_h
+#define radio_h
 
 // Includes
 #include <Audio.h>
@@ -10,7 +10,7 @@
 class Radio
 {
   public:
-    void init(int DOUT, int BLCK, int LRC, int ASO);
+    void init(int DOUT, int BLCK, int LRC);
     String readLine(int line);
     int countLines();
     void setStation(String URL);
@@ -21,7 +21,6 @@ class Radio
   private:
     int playlistCount;
     int playlistIndex = 0;
-    int ASO;
 ;
 };
 
